@@ -1,9 +1,10 @@
 from django.db.models import query
 from django.shortcuts import render
-from rest_framework import status, viewsets, generics
+from rest_framework import status, viewsets, generics, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.serializers import Serializer
+from django.conf import settings
+from rest_framework.views import APIView
 from .models import *
 from .serializers import CategorySerializer, CourseSerializer, LessonSerializer, LessonDetailSerializer, UserSerializer
 from .paginator import BasePagination
@@ -39,7 +40,7 @@ class CoursesViewSet(viewsets.ViewSet, generics.ListAPIView):
         return courses
 
     # tạo ra url mới mà có liên quan đến khóa học.
-    # Tìm những tiết học (lesson) liên quan đến khóa học có pk.
+    # Tìm những tiết học (lesson) liên quan đến khóa học cụ thể có pk.
     # url: /courses/{course_id}/lessons
     @action(methods=['get'], detail=True, url_path='lessons')
     def get_lesson(self, request, pk):
@@ -61,7 +62,7 @@ class CoursesViewSet(viewsets.ViewSet, generics.ListAPIView):
 # Vì lấy ra lesson_id thì kế thừa từ generics.RetrieveAPIView
 
 
-class LessonViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
+class LessonViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIView):
     queryset = Lesson.objects.filter(active=True)
     serializer_class = LessonDetailSerializer
 
@@ -85,9 +86,26 @@ class LessonViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
                             status=status.HTTP_201_CREATED)
 
 # Tạo url: /users
-# Dùng phương thức kế thừa generics.CreateAPIView để "post" methods
+# Dùng phương thức kế thừa generics.CreateAPIView để "post" (thêm mới) methods
 
 
 class UserViewSet(viewsets.ViewSet, generics.CreateAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
+
+    def get_permissions(self):
+        if self.action == 'get_current_user':
+            return [permissions.IsAuthenticated()]
+
+        return [permissions.AllowAny()]
+
+    # lấy ra user hiện tại đã đăng nhập
+    @action(methods=['get'], detail=False, url_path="current-user")
+    def get_current_user(self, request):
+        return Response(self.serializer_class(request.user).data,
+                        status=status.HTTP_200_OK)
+
+
+class AuthInfo(APIView):
+    def get(self, request):
+        return Response(settings.OAUTH2_INFO, status=status.HTTP_200_OK)

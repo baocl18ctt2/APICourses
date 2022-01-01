@@ -52,8 +52,10 @@ class LessonDetailSerializer(LessonSerializer):
 
 
 class UserSerializer(ModelSerializer):
+    # overwritedding lại phương thức create để băm mật khẩu
     def create(self, validated_data):
         user = User(**validated_data)
+        # Phương thức để băm mật khẩu có sẵn
         user.set_password(user.password)
         user.save()
         return user

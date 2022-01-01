@@ -40,7 +40,18 @@ INSTALLED_APPS = [
     'courses.apps.CoursesConfig',
     'rest_framework',
     'drf_yasg',
+    'oauth2_provider'
 ]
+# Cấu hình việc phân trang
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('oauth2_provider.contrib.rest_framework.OAuth2Authentication',)
+
+}
+# Không lộ client_id và password trong việc chứng thực người dùng thì định nghĩa object
+OAUTH2_INFO = {
+    "client_id": "MwaTM4UhUEHwMHR3ImfXxDWzKhqX7TOKd7yULun4",
+    'client_secret': "rBTe3lfchhluglQHZPOy65gBxpvXqhVEbbFS7IXSlw5C2aJ5FDmfrYEvoSFQPo2boQludIOP71aEuoNuX8canczLUDWTRTOcvegBJZnm9ywBcFjpO489VxMrtYyG79DC"
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
