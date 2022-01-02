@@ -67,3 +67,9 @@ class UserSerializer(ModelSerializer):
         extra_kwargs = {
             'password': {'write_only': 'true'}
         }
+
+
+class CommentSerializer(ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['id', 'content', 'created_date', 'updated_date']

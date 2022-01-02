@@ -56,8 +56,47 @@ class Lesson(MyModelBase):
         'Tag', related_name='lesson', blank=True, null=True)
 
 
+class Comment(models.Model):
+    content = models.TextField()
+    # khi xóa lessons thì comment cũng xóa
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.content
+
+
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
+
+
+# Tạo model để thực hiện các tính năng like, đếm số lượt view
+
+
+class ActionBase(models.Model):
+    create_date = models.DateTimeField(auto_now_add=True)
+    update_date = models.DateTimeField(auto_now=True)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        abstract = True
+
+
+class Action(ActionBase):
+    LIKE, HAHA, HEART = range(3)
+    ACTIONS = [
+        (LIKE, 'like'),
+        (HAHA, 'haha'),
+        (HEART, 'heart')
+    ]
+    type = models.PositiveSmallIntegerField(choices=ACTIONS, default=LIKE)
+
+
+class Rating(ActionBase):
+    rate = models.PositiveSmallIntegerField(default=0)
