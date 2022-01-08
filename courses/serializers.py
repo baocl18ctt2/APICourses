@@ -1,5 +1,6 @@
 
 from django.db.models import fields
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from .models import *
 
@@ -52,6 +53,7 @@ class LessonDetailSerializer(LessonSerializer):
 
 
 class UserSerializer(ModelSerializer):
+
     # overwritedding lại phương thức create để băm mật khẩu
     def create(self, validated_data):
         user = User(**validated_data)
@@ -60,10 +62,20 @@ class UserSerializer(ModelSerializer):
         user.save()
         return user
 
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            if attr == 'password':
+                instance.set_password(value)
+            else:
+                setattr(instance, attr, value)
+        instance.save()
+        return instance
+
+    avatar = serializers.ImageField(use_url = True, required = False)
     class Meta:
         model = User
         fields = ['id', 'first_name', 'last_name',
-                  'username', 'password', 'email', 'date_joined']
+                  'username', 'password', 'email', 'date_joined', 'avatar']
         extra_kwargs = {
             'password': {'write_only': 'true'}
         }

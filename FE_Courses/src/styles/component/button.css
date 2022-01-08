@@ -1,0 +1,41 @@
+.m-btn {
+    background-color: #4516ec;
+    border-radius: 4px;
+    height: 50px;
+    width: 500px;
+    font-size: 13px;
+    color: #fff;
+    font-weight: normal;
+    padding-left: 24px;
+    padding-right: 24px;
+    outline: unset;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.m-btn:hover {
+    background-color: #3021b9;
+}
+
+.m-btn:active {
+    background-color: #0c10f5;
+}
+
+.m-btn-color {
+    background-color: #fff;
+    border: 1px solid rgb(112, 110, 110);
+    color: #000;
+    font-weight: 600;
+}
+
+button.m-btn-color:hover {
+    background-color: #bbb;
+}
+
+.m-btn.m-btn-sign-up {
+    font-size: 18px;
+}

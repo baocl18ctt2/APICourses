@@ -40,8 +40,11 @@ INSTALLED_APPS = [
     'courses.apps.CoursesConfig',
     'rest_framework',
     'drf_yasg',
-    'oauth2_provider'
+    'oauth2_provider',
+    'corsheaders',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 # Cấu hình việc phân trang
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('oauth2_provider.contrib.rest_framework.OAuth2Authentication',)
@@ -53,6 +56,10 @@ OAUTH2_INFO = {
     'client_secret': "rBTe3lfchhluglQHZPOy65gBxpvXqhVEbbFS7IXSlw5C2aJ5FDmfrYEvoSFQPo2boQludIOP71aEuoNuX8canczLUDWTRTOcvegBJZnm9ywBcFjpO489VxMrtYyG79DC"
 }
 
+OAUTH2_PROVIDER = {
+    'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -61,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = 'ecoursesV2.urls'

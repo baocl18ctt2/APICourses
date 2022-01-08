@@ -1,0 +1,18 @@
+.m-footer-sign-up {
+    display: flex;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+.m-text {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.m-text-sign-in {
+    margin-left: 10px;
+    color: #3622e4;
+    font-weight: 700;
+    font-size: 20px;
+    text-decoration: none;
+}

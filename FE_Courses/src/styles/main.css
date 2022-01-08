@@ -1,0 +1,22 @@
+@import url('./common/common.css');
+@import url('./layout/register.css');
+@import url('./component/input.css');
+@import url('./component/button.css');
+.m-row {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+}
+
+.m-container {
+    position: relative;
+}
+
+form {
+    width: 500px;
+    margin: auto;
+}

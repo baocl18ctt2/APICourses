@@ -1,0 +1,25 @@
+input:focus {
+    border-color: #019160;
+}
+
+input.m-input {
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    height: 40px;
+    padding-left: 16px;
+    outline: none;
+    white-space: nowrap;
+    width: 500px;
+    box-sizing: border-box;
+    margin: 10px 0px;
+}
+
+.m-input::placeholder {
+    font-size: 13px;
+    color: #bbb;
+    font-style: italic;
+}
+
+.m-input:focus {
+    border-color: #019160;
+}
