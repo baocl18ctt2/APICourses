@@ -10,10 +10,10 @@
       >
         <div
           class="card"
-          style="width: 18rem;"
+          style="width: 350px;"
         >
           <img
-            style="width: auto; height: 195px;"
+            style="width: auto; height: 200px;"
             :src="`${course.image}`"
             alt="Card image cap"
           >

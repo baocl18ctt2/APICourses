@@ -82,15 +82,15 @@ export default {
           client_secret: response.data.client_secret,
           grant_type: "password",
         });
-        console.log(res);
+
         localStorage.setItem("access_token", res.data.access_token);
         let user = await axios.get("users/current-user/", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
         });
+        console.log(res);
         localStorage.setItem("YourUser", JSON.stringify(user.data));
-        console.log(user.data);
         this.$router.push("/");
       } catch (error) {
         this.isError = true;

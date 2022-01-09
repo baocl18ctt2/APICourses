@@ -70,7 +70,7 @@
             > </div>
             <img
               v-if="get_user.avatar"
-              :src="`http://127.0.0.1:8000/static${this.get_user.avatar}`"
+              :src="`http://127.0.0.1:8000/static${get_user.avatar}`"
               style="width: 40px; height: 40px"
               class="rounded-circle"
               alt="Cinque Terre"
@@ -110,6 +110,8 @@
     <UpdateProfile
       v-show="isUpdateProfile"
       :user_info="get_user"
+      @cancelPopUp="cancelPopUp($event)"
+      @updateInterfaceProfile="updateInterfaceProfile($event)"
     />
   </div>
 </template>
@@ -126,13 +128,14 @@ export default {
       categories: [],
       category_id: "",
       search_courses: "",
-      get_user: {},
+      get_user: null,
       isFeatureProfile: false,
       isUpdateProfile: false,
     };
   },
   mounted() {
-    this.get_user = JSON.parse(localStorage.getItem("YourUser"));
+    if (localStorage.getItem("YourUser"))
+      this.get_user = JSON.parse(localStorage.getItem("YourUser"));
   },
   created() {
     var me = this;
@@ -158,7 +161,7 @@ export default {
     testData() {},
     displayName() {
       if (this.get_user.first_name != "" || this.get_user.last_name != "")
-        return `${this.get_user.first_name} ${this.get_user.last_name}`;
+        return `${this.get_user.last_name} ${this.get_user.first_name}`;
       else {
         return "Ẩn danh";
       }
@@ -170,16 +173,20 @@ export default {
       });
       this.get_user = null;
     },
-    setURLProfile() {
-      if (!this.get_user.avatar || this.get_user.avatar == "") {
-        // return url("../../assets/images/avatar_empty.jpg");
-      } else {
-        return `http://127.0.0.1:8000/static${this.get_user.avatar}`;
-      }
-    },
+
     UpdateProfile() {
       this.isFeatureProfile = false;
       this.isUpdateProfile = true;
+    },
+    cancelPopUp($event) {
+      this.isUpdateProfile = $event;
+    },
+    updateInterfaceProfile(ọbject) {
+      for (const [key, value] of Object.entries(ọbject)) {
+        this.get_user[key] = value;
+      }
+      // Cập nhật lại local storage
+      localStorage.setItem("YourUser", this.get_user);
     },
   },
 };
