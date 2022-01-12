@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h1 class="text-center text-danger">DANH MỤC KHÓA HỌC</h1>
+    <h1
+      class="text-center text-danger"
+      style="margin: 10px 0px"
+    >DANH MỤC KHÓA HỌC</h1>
     <div class="row">
       <!-- Hiển thị 1 course -->
       <div
@@ -21,9 +24,16 @@
             <h5 class="card-title">{{course.subject}}</h5>
             <p class="card-text">Ngày tạo: {{tranformDate(course.create_date)}}</p>
             <router-link
+              v-if="get_user"
               tag="a"
               class="btn btn-primary"
               :to="{name: 'courses', params: {coursesId: course.id}}"
+            >Chi tiết khóa học</router-link>
+            <router-link
+              v-if="!get_user"
+              tag="a"
+              class="btn btn-primary"
+              :to="{path: '/login'}"
             >Chi tiết khóa học</router-link>
           </div>
         </div>
@@ -46,6 +56,7 @@ export default {
         category_id: "",
         q: "",
       },
+      get_user: localStorage.getItem("YourUser"),
     };
   },
   created() {
@@ -85,3 +96,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.col-sm-4 {
+  margin-bottom: 20px;
+}
+.card-title {
+  display: flex;
+  margin-bottom: 0.5rem;
+  height: 50px;
+  align-items: center;
+}
+</style>
